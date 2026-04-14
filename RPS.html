@@ -4,8 +4,41 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale:1.0">
         <title>RPS console game</title>
+        <style>
+            button{
+                border-radius: 30%;
+                font-size: 2.5em;
+                font-weight: bold;
+            }
+            button:hover{
+                box-shadow:5px 8px 10px 0 rgba(226, 53, 53, 0.6), -5px -8px 10px 0 rgba(67, 163, 232, 0.6)
+            }
+
+            .board{
+                text-align: center;
+                border: 3px dashed azure;
+                padding-right: 3.5%;
+            }
+        </style>
     </head>
     <body>
-        <script src="RPS.js"></script>
+        <script src="RPS.js" defer></script>
+        <h2 style="font-size: 1.75em; color:rgb(27, 87, 87); text-align: center; margin: 30px; text-shadow: 5px 5px 7px rgb(44, 45, 44)">Click to choose your move | RPS GAME</h2>
+        <div style= "display: flex; justify-content: space-around; margin: 50px 30px" class="btns">
+            <button id="r">Rock</button>
+            <button id="p">Paper</button>
+            <button id="s">Scissors</button>
+        </div>
+        <div class="board" style="font-size:1.5em">
+            <div class="judge"></div>
+            <br>
+            <div class="judge1"></div>
+            <br>
+            Player Score: 
+                <div class="pScore">0</div>
+            <br>
+            Bot Score:
+                <div class="bScore">0</div>
+        </div>
     </body>
 </html>

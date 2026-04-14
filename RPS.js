@@ -1,4 +1,3 @@
-alert("---ROCK PAPER SCISSOR GAME\n");
 
 const ref_arr = ["rock", "paper", "scissors"];
 
@@ -6,35 +5,26 @@ let choice = "";
 
 const winner_arr = [["rock", "paper", "paper"], ["rock", "scissors", "rock"], ["scissors", "paper", "scissors"]];
 
-
-let humanScore = 0, computerScore = 0;
-
-function score_clear(){
-    humanScore = 0;
-    computerScore = 0;
-}
-
 const getComputerChoice = () => {
     let int_res = Math.floor(Math.random() * 3);
     return ref_arr[int_res];
 };
 
-const getHumanChoice = () => {
-    do {
-        choice = prompt("Please Place Your Bet.");
-        choice = choice ? choice.toLowerCase() : -1;
-    } while(ref_arr.indexOf(choice) == -1);
-
-    return choice;
+const getHumanChoice = (choice) => {
+    return choice.toLowerCase();
 };
 
+const notiText = document.querySelector(".judge");
+const winNoti = document.querySelector(".judge1");
+const playerScore = document.querySelector(".pScore");
+const botScore = document.querySelector(".bScore");
 
 const playRound = (human, computer) => {
+    winNoti.textContent = '';
     let res_str = "";
     let winning_gest = "";
     if (human == computer){
-        res_str += `You guys both bet ${human} that's a draw.\nYour score: ${humanScore}, Computer Score: ${computerScore}.\n`;
-        alert(res_str);
+        notiText.innerText += `You guys both bet ${human} that's a draw.\n`;
         return;
     };
     
@@ -49,35 +39,38 @@ const playRound = (human, computer) => {
     }
 
     if (human == winning_gest){
-        humanScore ++;
-        res_str += `You win! ${human} beats ${computer}.\nYour score: ${humanScore}, Computer Score: ${computerScore}.\n`;
-        alert(res_str);
+
+        const currScore = +(playerScore.textContent);
+        playerScore.textContent = currScore + 1;
+        notiText.innerText += `You win! ${human} beats ${computer}.\n`;
     }
     else{
-        computerScore ++;
-        res_str += `You lose! ${computer} beats ${human}.\nYour score: ${humanScore}, Computer Score: ${computerScore}.\n`;
-        alert(res_str);
+        const currScore = +(botScore.textContent);
+        botScore.textContent = currScore + 1;
+        notiText.innerText += `You lose! ${computer} beats ${human}.\n`;
     }
 
+    if (+(playerScore.textContent) == 5){
+        winNoti.innerText = "GameOver YOU WON!\n";
+        notiText.innerText = '';
+        playerScore.textContent = 0;
+        botScore.textContent = 0;
+    }
+    else if(+(botScore.textContent) == 5){
+        winNoti.innerText = "GameOver YOU LOSE!\n";
+        notiText.innerText = '';
+        playerScore.textContent = 0;
+        botScore.textContent = 0;
+    }
 };  
 
-function play5Round(){
-    do {
-        score_clear();
-        for (let i = 0; i < 5; i ++){
-            alert(`GAME ${i+1} !`);
-            const humansele = getHumanChoice();
-            const compsele = getComputerChoice();
-            playRound(humansele, compsele);
-        }
 
-        if (humanScore == computerScore) alert(`YOU DRAW WITH BOT! Both scores ${humanScore}.`);
-        else if (humanScore > computerScore) alert(`YOU WIN! UR SCORE: ${humanScore}, BOT SCORE: ${computerScore}.`);
-        else alert(`YOU LOSE! UR SCORE: ${humanScore}, BOT SCORE: ${computerScore}.`);
-    } while (confirm("Play Again?"));
-}
-
-play5Round();
-
-
+const btns = document.querySelectorAll(".btns > button");
+btns.forEach((btn)=>{
+    btn.addEventListener("click",(e)=>{
+        const usrChoice = getHumanChoice(e.currentTarget.textContent);
+        const botChoice = getComputerChoice();
+        playRound(usrChoice,botChoice);
+    })
+})
 
